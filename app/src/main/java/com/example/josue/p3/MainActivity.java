@@ -360,6 +360,7 @@ public class MainActivity extends AppCompatActivity
         levelDialog = builder.create();
         levelDialog.show();
     }
+
     private RadioButton crearRadioB(String estilo) {
         RadioButton nuevoRadio = new RadioButton(this);
         LinearLayout.LayoutParams params = new RadioGroup.LayoutParams(
