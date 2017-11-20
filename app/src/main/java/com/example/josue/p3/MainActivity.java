@@ -1,7 +1,10 @@
 package com.example.josue.p3;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -33,6 +36,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +55,9 @@ import static android.provider.Telephony.ThreadsColumns.ERROR;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static String[] Estilos = {
+            "Standard","Silver", "Dark", "Aubergine", "Night","Retro"};
+    public AlertDialog levelDialog;
     public static final String TAG = "App";
     private boolean isNightModeEnabled = false;
 
@@ -291,20 +300,75 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent("com.example.josue.p3.Contactos");
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent("com.example.josue.p3.Categoria");
-            startActivity(intent);
+            message();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
+        //Intent intent = new Intent(this,MapsActivity.class);
+        //startActivity(intent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void message(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.etiqueta_estilos);
+        builder.setSingleChoiceItems(Estilos, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                Intent intent = new Intent("com.example.josue.p3.MapsActivity");
+                switch(item)
+                {
+                    case 0:
+                        EstiloMapa.estilo="standard";
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        EstiloMapa.estilo="silver";
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        EstiloMapa.estilo="dark";
+                        startActivity(intent);
+                        break;
+                    case 3:
+                        EstiloMapa.estilo="aubergine";
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        EstiloMapa.estilo="night";
+                        startActivity(intent);
+                        break;
+                    case 5:
+                        EstiloMapa.estilo="retro";
+                        startActivity(intent);
+                        break;
+
+                }
+                levelDialog.dismiss();
+            }
+        });
+        levelDialog = builder.create();
+        levelDialog.show();
+    }
+    private RadioButton crearRadioB(String estilo) {
+        RadioButton nuevoRadio = new RadioButton(this);
+        LinearLayout.LayoutParams params = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+        nuevoRadio.setLayoutParams(params);
+        nuevoRadio.setText(estilo);
+        nuevoRadio.setTag(estilo);
+        return nuevoRadio;
+    }
+
 }

@@ -1,13 +1,22 @@
 package com.example.josue.p3;
 
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.widget.LinearLayout;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -37,10 +46,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setMyLocationEnabled(true);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        switch (EstiloMapa.estilo){
+            case "standard":
+                MapStyleOptions style1 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.standard);
+                googleMap.setMapStyle(style1);
+                break;
+            case "dark":
+                MapStyleOptions style2 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.dark);
+                googleMap.setMapStyle(style2);
+                break;
+            case "night":
+                MapStyleOptions style3 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.night);
+                googleMap.setMapStyle(style3);
+                break;
+            case "retro":
+                MapStyleOptions style4 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.retro);
+                googleMap.setMapStyle(style4);
+                break;
+            case "silver":
+                MapStyleOptions style5 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.silver);
+                googleMap.setMapStyle(style5);
+                break;
+            case "aubergine":
+                MapStyleOptions style6 = MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.aubergine);
+                googleMap.setMapStyle(style6);
+                break;
+        }
+
+
     }
 }
