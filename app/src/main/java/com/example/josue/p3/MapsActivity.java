@@ -1,7 +1,15 @@
 package com.example.josue.p3;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,6 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -67,8 +79,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .anchor(0.0f,1.0f).position(latLng));
             }
         });
+    }
 
-
+    public void datosSitio(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        View vie = getLayoutInflater().inflate(R.layout.dialog_sitio, null);
+        final EditText nombr = (EditText) vie.findViewById(R.id.ident);
+        final EditText tel = (EditText) vie.findViewById(R.id.descripcion);
+        Spinner miSpinner=(Spinner) vie.findViewById(R.id.spinner2);
+        final EditText cat = (EditText) miSpinner.getSelectedItem().toString();
+        Button button = (Button) vie.findViewById(R.id.button);
+        builder.setView(vie);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!nombr.getText().toString().isEmpty() && !tel.getText().toString().isEmpty() && !cat.toString().isEmpty()) {
+                    try {
+                        ContactoOpenHelper helper= new ContactoOpenHelper(MapsActivity.this);
+                        SQLiteDatabase database = helper.getWritableDatabase();
+                        ContentValues values= new ContentValues();
+                        values.put(SitioReader.Sitio.NOMBRE,nombr.getText().toString());
+                        values.put(SitioReader.Sitio.CATEGORIA, cat.toString());
+                        values.put(SitioReader.Sitio.TELEFONO,tel.getText().toString());
+                        long insert = database.insert(SitioReader.Sitio.TABLE_NAME, null, values);
+                        database.close();
+                        Toast.makeText(Contactos.this, "El sitio " + nombr.getText() + " ha sido agregado exitosamente.", Toast.LENGTH_SHORT).show();
+                        Refrescar();
+                        dialog.dismiss();
+                    } catch (Exception e) {
+                        Toast.makeText(Contactos.this, "Ha ocurrido un error al agregar este dato. Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Contactos.this, "Rellene todos los campos.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void cargaStilo(GoogleMap googleMap){

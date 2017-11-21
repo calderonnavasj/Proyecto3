@@ -4,6 +4,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="etiqueta_estilos">Seleccione un estilo:</string>
+    <string name="etiqueta_infoSitio">Información de sitio nuevo</string>
+    <string name="etiqueta_nombSitio">Nombre</string>
+    <string name="etiqueta_telSitio">Teléfono</string>
+    <string name="etiqueta_fotoSt">Fotografía</string>
+    <string name="etiqueta_listoSitio">Listo</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_categoria">Categoria</string>
